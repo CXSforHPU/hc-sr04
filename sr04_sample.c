@@ -8,11 +8,6 @@
  * 2020-05-09     shany       the first version
  */
 
-#include <stdlib.h>
-#include <rtthread.h>
-
-#include "board.h"
-#include "sensor.h"
 #include "sensor_hc_sr04.h"
 
 /* Modify this pin according to the actual wiring situation */
