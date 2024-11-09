@@ -9,9 +9,6 @@
  */
 
 #include "sensor_hc_sr04.h"
-#include "sensor.h"
-#include "board.h"
-#include <rtdbg.h>
 
 #define DBG_TAG "sensor.hc.sr04"
 #define DBG_LVL DBG_INFO
@@ -19,9 +16,11 @@
 #define SENSOR_DISTANCE_RANGE_MAX (400)
 #define SENSOR_DISTANCE_RANGE_MIN (2)
 
+#warning "Please implement this function in board: rt_hw_us_delay()"
+
 static struct sr04_device *sr04_dev;
 
-RT_WEAK void rt_hw_us_delay(rt_uint32_t us)
+RT_WEAK void rt_hw_sr04_us_delay(rt_uint32_t us)
 {
     rt_uint32_t delta;
 
@@ -100,9 +99,9 @@ int32_t sr04_get_distance(void)
 
     dev = _sr04_hwtimer_init();
     rt_pin_write(sr04_dev->trig_pin, PIN_LOW);
-    rt_hw_us_delay(2);
+    rt_hw_sr04_us_delay(2);
     rt_pin_write(sr04_dev->trig_pin, PIN_HIGH);
-    rt_hw_us_delay(10);
+    rt_hw_sr04_us_delay(10);
     rt_pin_write(sr04_dev->trig_pin, PIN_LOW);
     while ((rt_pin_read(sr04_dev->echo_pin) == PIN_LOW));
     _sr04_hwtimer_start(dev);
@@ -114,7 +113,7 @@ int32_t sr04_get_distance(void)
     return distance;
 }
 
-static rt_size_t _sr04_polling_get_data(rt_sensor_t sensor, struct rt_sensor_data *data)
+static RT_SIZE_TYPE _sr04_polling_get_data(rt_sensor_t sensor, struct rt_sensor_data *data)
 {
     rt_int32_t distance_x10;
 
@@ -127,7 +126,7 @@ static rt_size_t _sr04_polling_get_data(rt_sensor_t sensor, struct rt_sensor_dat
     return 1;
 }
 
-static rt_size_t sr04_fetch_data(struct rt_sensor_device *sensor, void *buf, rt_size_t len)
+static RT_SIZE_TYPE sr04_fetch_data(struct rt_sensor_device *sensor, void *buf, rt_size_t len)
 {
     RT_ASSERT(buf);
 
