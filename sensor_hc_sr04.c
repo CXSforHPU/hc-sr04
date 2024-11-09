@@ -20,7 +20,7 @@
 
 static struct sr04_device *sr04_dev;
 
-RT_WEAK void rt_hw_sr04_us_delay(rt_uint32_t us)
+WEAK_DEF void rt_hw_sr04_us_delay(rt_uint32_t us)
 {
     rt_uint32_t delta;
 

@@ -25,6 +25,14 @@
         #define RT_SIZE_TYPE   rt_size_t
     #endif
 #endif
+
+#if defined(RT_VERSION_CHECK)
+    #if (RTTHREAD_VERSION >= RT_VERSION_CHECK(5, 0, 0))
+        #define WEAK_DEF   rt_weak
+    #else
+        #define WEAK_DEF   RT_WEAK
+    #endif
+#endif
 struct sr04_device
 {
     /* mount on a hwtimer to get accurate time */
